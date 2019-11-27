@@ -25,7 +25,7 @@ SECRET_KEY = '3kgi19n@#-va$(=34*t2sx1t_ho2ve14_*2+br%fq1t1x^-j5q'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['134.209.98.165']
 
 
 # Application definition
@@ -75,8 +75,10 @@ WSGI_APPLICATION = 'car.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'OPTIONS': {
+            'read_default_file': '/root/my.cnf',
+        },
     }
 }
 
