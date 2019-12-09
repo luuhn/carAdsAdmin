@@ -78,13 +78,13 @@ class ReportCreate(APIView):
 
         else:
             if (index == 0):
-                ReportImage.objects.Create(car__id=request.data["id"], report__id= request.data["report_id"],image_odo=request.data["url"])
+                ReportImage.objects.create(car_id=request.data["id"], report_id= request.data["report_id"],image_odo=request.data["url"])
             elif (index == 1):
-                ReportImage.objects.Create(car__id=request.data["id"], report__id= request.data["report_id"],image_drive=request.data["url"])
+                ReportImage.objects.create(car_id=request.data["id"], report_id= request.data["report_id"],image_drive=request.data["url"])
             elif (index == 2):
-                ReportImage.objects.Create(car__id=request.data["id"], report__id= request.data["report_id"],image_pass=request.data["url"])
+                ReportImage.objects.create(car_id=request.data["id"], report_id= request.data["report_id"],image_pass=request.data["url"])
             else:
-                ReportImage.objects.Create(car__id=request.data["id"], report__id= request.data["report_id"],image_plate=request.data["url"])
+                ReportImage.objects.create(car_id=request.data["id"], report_id= request.data["report_id"],image_plate=request.data["url"])
         return Response({'data':'OK'},status=status.HTTP_200_OK)
 
 @api_view(['POST'])
