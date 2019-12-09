@@ -25,7 +25,7 @@ SECRET_KEY = '3kgi19n@#-va$(=34*t2sx1t_ho2ve14_*2+br%fq1t1x^-j5q'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -126,7 +126,6 @@ STATIC_URL = '/static/'
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
+     'TEST_REQUEST_DEFAULT_FORMAT': 'json',
+     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }

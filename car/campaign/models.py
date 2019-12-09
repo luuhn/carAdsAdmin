@@ -33,10 +33,22 @@ class Car(models.Model):
 
 class Report(models.Model):
     name = models.CharField(max_length=200)
-    start_date = models.DateField()
-    end_date = models.DateField()
-    note = models.CharField(max_length=300)
     campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.name
+
+class ReportImage(models.Model):
+    car = models.ForeignKey(Car, on_delete=models.CASCADE)
+    report = models.ForeignKey(Report, on_delete=models.CASCADE)
+    image_odo = models.URLField(max_length=500,blank=True)
+    image_drive = models.URLField(max_length=500,blank=True)
+    image_pass = models.URLField(max_length=500,blank=True)
+    image_plate = models.URLField(max_length=500,blank=True)
+    date = models.DateField(blank=True)
+    odo_aproved = models.BooleanField(blank=True,default=False)
+    drive_aproved = models.BooleanField(blank=True,default=False)
+    pass_aproved = models.BooleanField(blank=True,default=False)
+    plate_aproved = models.BooleanField(blank=True,default=False)
 
 class CampaignCar(models.Model):
     campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE)

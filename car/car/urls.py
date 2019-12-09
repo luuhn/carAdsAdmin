@@ -23,6 +23,10 @@ router.register(r'cars', views.CarViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('list/', views.PurchaseList.as_view()),
+    path('report/', views.ReportList.as_view()),
+    path('report_create/', views.ReportCreate.as_view()),
+    path('api_post/', views.api_post, name='vote'),
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
