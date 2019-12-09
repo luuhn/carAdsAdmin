@@ -1,5 +1,5 @@
 from django.db import models
-
+import datetime
 # Create your models here.
 
 class Location(models.Model):
@@ -44,7 +44,7 @@ class ReportImage(models.Model):
     image_drive = models.URLField(max_length=500,blank=True)
     image_pass = models.URLField(max_length=500,blank=True)
     image_plate = models.URLField(max_length=500,blank=True)
-    date = models.DateField(blank=True)
+    date = models.DateField(blank=True, default=datetime.date.today)
     odo_aproved = models.BooleanField(blank=True,default=False)
     drive_aproved = models.BooleanField(blank=True,default=False)
     pass_aproved = models.BooleanField(blank=True,default=False)
