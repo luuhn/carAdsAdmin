@@ -24,6 +24,7 @@ router.register(r'cars', views.CarViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('list/', views.PurchaseList.as_view()),
+    path('carkpi/', views.CarKpiList.as_view()),
     path('report/', views.ReportList.as_view()),
     path('report_create/', views.ReportCreate.as_view()),
     path('api_post/', views.api_post, name='vote'),

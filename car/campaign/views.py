@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from campaign.models import Car, Report, ReportImage,CampaignCar
-from campaign.serializers import CarSerializer, ReportSerializer
+from campaign.models import Car, Report, ReportImage,CampaignCar,CarKpi
+from campaign.serializers import CarSerializer, ReportSerializer, CarKpiSerializer
 from rest_framework import viewsets, generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -38,6 +38,14 @@ class PurchaseList(APIView):
         serializer = CarSerializer(car, many=True)
         data = serializer.data
         print(data);
+        return Response(data[0],status=status.HTTP_200_OK)
+
+class CarKpiList(APIView):
+    def post(self, request, format=None):
+        car = CarKpi.objects.filter(car__id=request.data["id"])
+        serializer = CarKpiSerializer(car, many=True)
+        data = serializer.data
+        print(data)
         return Response(data[0],status=status.HTTP_200_OK)
 
 class ReportList(APIView):
