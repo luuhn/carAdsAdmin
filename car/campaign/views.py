@@ -20,6 +20,7 @@ from django.contrib.auth import authenticate
 class UserList(APIView):
     def post(self, request, format=None):
         data =[]
+        print(request.data)
         # car = User.objects.filter(username=request.data["username"])
         user = authenticate(username=request.data["username"], password=request.data["password"])
         if user is not None:
