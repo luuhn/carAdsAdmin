@@ -49,7 +49,7 @@ class ReportImageList(APIView):
     def post(self, request, format=None):
         # car = User.objects.filter(username=request.data["username"])
         report = ReportImage.objects.filter(report = request.data["username"]).values(
-        'car__driver_name', 'car__phone','image_odo','image_drive','image_pass','image_plate')
+        'car__driver_name', 'car__plate_num','image_odo','image_drive','image_pass','image_plate')
 
         serializer = ReportImageSerializer(report, many=True)
         data = serializer.data

@@ -10,7 +10,7 @@ class CamSerializer(serializers.ModelSerializer):
         fields = '__all__'
 class ReportImageSerializer(serializers.Serializer):
     car__driver_name = serializers.CharField(max_length=100)
-    car__phone = serializers.CharField(max_length=15)
+    car__plate_num = serializers.CharField(max_length=10)
     image_odo = serializers.URLField(max_length=500)
     image_drive = serializers.URLField(max_length=500)
     image_pass = serializers.URLField(max_length=500)
