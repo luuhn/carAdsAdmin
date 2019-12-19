@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from campaign.models import Car, Report, ReportImage,CampaignCar,CarKpi
-from campaign.serializers import CarSerializer, ReportSerializer, CarKpiSerializer
+from campaign.serializers import CarSerializer, ReportSerializer, CarKpiSerializer, UserSerializer
 from rest_framework import viewsets, generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -9,7 +9,25 @@ from rest_framework.views import APIView
 from django.core import serializers
 from django_filters.rest_framework import DjangoFilterBackend
 from django.http import JsonResponse
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
 # Create your views here.
+
+
+class UserList(APIView):
+    def post(self, request, format=None):
+        data =[]
+        # car = User.objects.filter(username=request.data["username"])
+        user = authenticate(username=request.data["username"], password=request.data["password"])
+        if user is not None:
+            car = User.objects.filter(username=request.data["username"])
+            serializer = UserSerializer(car, many=True)
+            data = serializer.data
+        return Response(data,status=status.HTTP_200_OK)
+
 
 class CarViewSet(viewsets.ModelViewSet):
     """
@@ -21,18 +39,6 @@ class CarViewSet(viewsets.ModelViewSet):
 
 
 class PurchaseList(APIView):
-    #serializer_class = CarSerializer
-
-    # def get_queryset(self):
-    #     """
-    #     Optionally restricts the returned purchases to a given user,
-    #     by filtering against a `username` query parameter in the URL.
-    #     """
-    #     queryset = Car.objects.all()
-    #     username = self.request.query_params.get('username', None)
-    #     if username is not None:
-    #         queryset = queryset.filter(plate_num=username)
-    #     return queryset
     def post(self, request, format=None):
         car = Car.objects.filter(plate_num=request.data["username"])
         serializer = CarSerializer(car, many=True)
