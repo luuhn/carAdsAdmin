@@ -1,6 +1,8 @@
 from django.db import models
+from django.contrib.auth.models import User
 import datetime
 # Create your models here.
+
 
 class Location(models.Model):
     name = models.CharField(max_length=100)
@@ -15,6 +17,7 @@ class Campaign(models.Model):
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
     def __str__(self):
         return self.name
+
 
 class Car(models.Model):
     plate_num = models.CharField(max_length=10,unique=True)
@@ -72,3 +75,7 @@ class CarKpi(models.Model):
     totalDistance = models.DecimalField(max_digits=15, decimal_places=2)
     date = models.DateField()
     province = models.CharField(max_length=50)
+
+class UserCampaign(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE)

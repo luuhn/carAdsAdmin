@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from campaign.models import Car, Report, ReportImage,CampaignCar,CarKpi
-from campaign.serializers import CarSerializer, ReportSerializer, CarKpiSerializer, UserSerializer
+from campaign.models import Car, Report, ReportImage,CampaignCar,CarKpi,UserCampaign,Campaign
+from campaign.serializers import CarSerializer, ReportSerializer, CarKpiSerializer, UserSerializer, CamSerializer, ReportImageSerializer, ReportCamListSerializer
 from rest_framework import viewsets, generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -20,13 +20,39 @@ from django.contrib.auth import authenticate
 class UserList(APIView):
     def post(self, request, format=None):
         data =[]
-        print(request.data)
         # car = User.objects.filter(username=request.data["username"])
         user = authenticate(username=request.data["username"], password=request.data["password"])
         if user is not None:
             car = User.objects.filter(username=request.data["username"])
             serializer = UserSerializer(car, many=True)
             data = serializer.data
+        return Response(data,status=status.HTTP_200_OK)
+
+class CamList(APIView):
+    def post(self, request, format=None):
+        # car = User.objects.filter(username=request.data["username"])
+        cam_id = UserCampaign.objects.filter(user=request.data["username"]).values_list('campaign')
+        cam = Campaign.objects.filter(id__in = cam_id)
+        serializer = CamSerializer(cam, many=True)
+        data = serializer.data
+        return Response(data,status=status.HTTP_200_OK)
+
+class ReportCamList(APIView):
+    def post(self, request, format=None):
+        # car = User.objects.filter(username=request.data["username"])
+        report = Report.objects.filter(campaign = request.data["username"])
+        serializer = ReportCamListSerializer(report, many=True)
+        data = serializer.data
+        return Response(data,status=status.HTTP_200_OK)
+
+class ReportImageList(APIView):
+    def post(self, request, format=None):
+        # car = User.objects.filter(username=request.data["username"])
+        report = ReportImage.objects.filter(report = request.data["username"]).values(
+        'car__driver_name', 'car__phone','image_odo','image_drive','image_pass','image_plate')
+
+        serializer = ReportImageSerializer(report, many=True)
+        data = serializer.data
         return Response(data,status=status.HTTP_200_OK)
 
 
