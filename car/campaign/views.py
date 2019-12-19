@@ -26,6 +26,7 @@ class UserList(APIView):
             car = User.objects.filter(username=request.data["username"])
             serializer = UserSerializer(car, many=True)
             data = serializer.data
+            print(data)
         return Response(data,status=status.HTTP_200_OK)
 
 
