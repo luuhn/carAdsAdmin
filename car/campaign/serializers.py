@@ -8,6 +8,11 @@ class CamSerializer(serializers.ModelSerializer):
     class Meta:
         model = Campaign
         fields = '__all__'
+class CarDiViceSerializer(serializers.Serializer):
+    plate_num = serializers.CharField(max_length=10)
+    id  = serializers.CharField(max_length=10)
+    campaign_id = serializers.CharField(max_length=10)
+
 class ReportImageSerializer(serializers.Serializer):
     car__driver_name = serializers.CharField(max_length=100)
     car__plate_num = serializers.CharField(max_length=10)

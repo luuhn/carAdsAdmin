@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from campaign.models import Car, Report, ReportImage,CampaignCar,CarKpi,UserCampaign,Campaign
-from campaign.serializers import CarSerializer, ReportSerializer, CarKpiSerializer, UserSerializer, CamSerializer, ReportImageSerializer, ReportCamListSerializer
+from campaign.serializers import CarSerializer, ReportSerializer, CarKpiSerializer, UserSerializer, CamSerializer, ReportImageSerializer, ReportCamListSerializer, CarDiViceSerializer
 from rest_framework import viewsets, generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -14,7 +14,24 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
+from django.db import connection
+import json
 # Create your views here.
+
+
+
+class CarDiviceList(APIView):
+    def post(self, request, format=None):
+        data =[]
+        with connection.cursor() as cursor:
+             cursor.execute("select c.plate_num,t.id,p.campaign_id from tc_devices t, campaign_car c, campaign_campaigncar p where t.name=p.deviceid and c.id=p.car_id")
+             rows = cursor.fetchall()
+             result = []
+             keys = ('plate_num','deviceId','campaignId',)
+             for row in rows:
+                 result.append(dict(zip(keys,row)))
+                 json_data = json.dumps(result)
+        return Response(result,status=status.HTTP_200_OK)
 
 
 class UserList(APIView):

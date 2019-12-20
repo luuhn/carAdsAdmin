@@ -26,6 +26,7 @@ urlpatterns = [
     path('list/', views.PurchaseList.as_view()),
     path('userlist/', views.UserList.as_view()),
     path('reportlist/', views.ReportCamList.as_view()),
+    path('cdivicelist/', views.CarDiviceList.as_view()),
     path('imagelist/', views.ReportImageList.as_view()),
     path('camlist/', views.CamList.as_view()),
     path('carkpi/', views.CarKpiList.as_view()),
