@@ -73,6 +73,7 @@ class CarKpi(models.Model):
     car = models.ForeignKey(Car, on_delete=models.CASCADE)
     campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE)
     totalDistance = models.DecimalField(max_digits=15, decimal_places=2)
+    impression = models.DecimalField(max_digits=15, decimal_places=0, null=True)
     date = models.DateField()
     province = models.CharField(max_length=50)
 
