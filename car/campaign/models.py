@@ -61,8 +61,8 @@ class CampaignCar(models.Model):
 class CampaignKpi(models.Model):
     campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE)
     totalDistance = models.DecimalField(max_digits=15, decimal_places=2)
-    province = models.CharField(max_length=50)
-    district = models.CharField(max_length=50)
+    province = models.CharField(max_length=100)
+    district = models.CharField(max_length=200)
 
 class CampaignHourly(models.Model):
     campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE)
@@ -75,7 +75,7 @@ class CarKpi(models.Model):
     totalDistance = models.DecimalField(max_digits=15, decimal_places=2)
     impression = models.DecimalField(max_digits=15, decimal_places=0, null=True)
     date = models.DateField()
-    province = models.CharField(max_length=50)
+    province = models.CharField(max_length=100)
 
 class UserCampaign(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
