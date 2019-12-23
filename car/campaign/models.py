@@ -76,6 +76,8 @@ class CarKpi(models.Model):
     impression = models.DecimalField(max_digits=15, decimal_places=0, null=True)
     date = models.DateField()
     province = models.CharField(max_length=100)
+    def plate(self):
+        return self.car.plate_num
 
 class UserCampaign(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

@@ -87,16 +87,16 @@ class PurchaseList(APIView):
         car = Car.objects.filter(plate_num=request.data["username"])
         serializer = CarSerializer(car, many=True)
         data = serializer.data
-        print(data);
+        print(data)
         return Response(data[0],status=status.HTTP_200_OK)
 
 class CarKpiList(APIView):
     def post(self, request, format=None):
-        car = CarKpi.objects.filter(car__id=request.data["id"])
+        car = CarKpi.objects.filter(campaign_id=request.data["camid"])[:4]
         serializer = CarKpiSerializer(car, many=True)
         data = serializer.data
         print(data)
-        return Response(data[0],status=status.HTTP_200_OK)
+        return Response(data,status=status.HTTP_200_OK)
 
 class ReportList(APIView):
     def post(self, request, format=None):

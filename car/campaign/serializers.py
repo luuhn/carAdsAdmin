@@ -58,4 +58,5 @@ class CarKpiSerializer(serializers.ModelSerializer):
     # entity_instance = EntityInstanceSerializer(many=True)
     class Meta:
         model = CarKpi
-        fields = '__all__'
+        #fields = '__all__'
+        fields=['plate','totalDistance','impression']
