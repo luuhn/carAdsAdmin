@@ -56,7 +56,10 @@ class ReportSerializer(serializers.ModelSerializer):
         # fields = ['id','driver_name','phone','bank_name','bank_branch','bank_account']
 class CarKpiSerializer(serializers.ModelSerializer):
     # entity_instance = EntityInstanceSerializer(many=True)
+
     class Meta:
         model = CarKpi
-        #fields = '__all__'
-        fields=['plate','totalDistance','impression']
+        fields = '__all__'
+        # fields=['plate','totalDistance','impression']
+    # car__plate_num = serializers.CharField(max_length=100)
+    # total_price = serializers.CharField(max_length=100)

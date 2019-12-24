@@ -16,6 +16,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.db import connection
 import json
+from django.db.models import Sum
+# import pandas as pd
+# import numpy as np
 # Create your views here.
 
 
@@ -92,11 +95,35 @@ class PurchaseList(APIView):
 
 class CarKpiList(APIView):
     def post(self, request, format=None):
-        car = CarKpi.objects.filter(campaign_id=request.data["camid"])[:4]
-        serializer = CarKpiSerializer(car, many=True)
-        data = serializer.data
-        print(data)
-        return Response(data,status=status.HTTP_200_OK)
+        # car = CarKpi.objects.filter(campaign_id=request.data["camid"]).values('car','totalDistance','impression','province')
+
+        # df=pd.DataFrame(car)
+        # # print(df['province'])
+        # if 'Ho' in str(df['province']):
+        # # if df['province'].str.contains("Ho"):
+        #     df['inside']=0
+        # else:
+        #     df['inside']=df['totalDistance']
+        # d=df.groupby(['car'])['totalDistance','inside','impression'].sum()
+        #tmp run
+        cam= Campaign.objects.get(pk=request.data["camid"])
+        cityname= cam.location.name
+        cursor = connection.cursor()
+        cursor.execute("select car_id,sum(totalDistance),sum(impression) from campaign_carkpi where campaign_id=%s group by car_id",[request.data["camid"]])
+        rows = cursor.fetchall()
+        result = []
+        keys = ('plate','totalDistance','impression','inside',)
+        for row in rows:
+            #get inside
+            data=[]
+            kq=CarKpi.objects.filter(car_id=row[0],province__icontains=cityname).values('car__plate_num').annotate(score =Sum('totalDistance'))
+            # print(kq[0])
+            data.append(kq[0]['car__plate_num'])
+            data.append(row[1])
+            data.append(row[2])
+            data.append(kq[0]['score'])
+            result.append(dict(zip(keys,data)))
+        return Response(result,status=status.HTTP_200_OK)
 
 class ReportList(APIView):
     def post(self, request, format=None):
