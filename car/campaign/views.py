@@ -118,11 +118,12 @@ class CarKpiList(APIView):
             data=[]
             kq=CarKpi.objects.filter(car_id=row[0],province__icontains=cityname).values('car__plate_num').annotate(score =Sum('totalDistance'))
             # print(kq[0])
-            data.append(kq[0]['car__plate_num'])
-            data.append(row[1])
-            data.append(row[2])
-            data.append(kq[0]['score'])
-            result.append(dict(zip(keys,data)))
+            if kq:
+                data.append(kq[0]['car__plate_num'])
+                data.append(row[1])
+                data.append(row[2])
+                data.append(kq[0]['score'])
+                result.append(dict(zip(keys,data)))
         return Response(result,status=status.HTTP_200_OK)
 
 class ReportList(APIView):
