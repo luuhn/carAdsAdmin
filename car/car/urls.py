@@ -30,6 +30,7 @@ urlpatterns = [
     path('imagelist/', views.ReportImageList.as_view()),
     path('camlist/', views.CamList.as_view()),
     path('carkpi/', views.CarKpiList.as_view()),
+    path('districtkpi/', views.CamDistKpi.as_view()),
     path('report/', views.ReportList.as_view()),
     path('report_create/', views.ReportCreate.as_view()),
     path('api_post/', views.api_post, name='vote'),

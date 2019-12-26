@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from campaign.models import Car, Report, ReportImage,CampaignCar,CarKpi,UserCampaign,Campaign
+from campaign.models import Car, Report, ReportImage,CampaignCar,CarKpi,UserCampaign,Campaign, CampaignKpi
 from campaign.serializers import CarSerializer, ReportSerializer, CarKpiSerializer, UserSerializer, CamSerializer, ReportImageSerializer, ReportCamListSerializer, CarDiViceSerializer
 from rest_framework import viewsets, generics
 from rest_framework.decorators import api_view
@@ -124,6 +124,20 @@ class CarKpiList(APIView):
                 data.append(row[2])
                 data.append(kq[0]['score'])
                 result.append(dict(zip(keys,data)))
+        return Response(result,status=status.HTTP_200_OK)
+
+class CamDistKpi(APIView):
+    def post(self, request, format=None):
+        cam= Campaign.objects.get(pk=request.data["camid"])
+        cityname= cam.location.name
+        result = []
+        listkpi=CampaignKpi.objects.filter(campaign_id=request.data["camid"],province__icontains=cityname).values('district').annotate(score =Sum('totalDistance'))[:5]
+        keys = ('name','value',)
+        for lk in listkpi:
+            data=[]
+            data.append(lk['district'])
+            data.append(lk['score'])
+            result.append(dict(zip(keys,data)))
         return Response(result,status=status.HTTP_200_OK)
 
 class ReportList(APIView):
