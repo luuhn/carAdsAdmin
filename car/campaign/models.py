@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 import datetime
+from django.utils.safestring import mark_safe
 # Create your models here.
 
 
@@ -52,6 +53,15 @@ class ReportImage(models.Model):
     drive_aproved = models.BooleanField(blank=True,default=False)
     pass_aproved = models.BooleanField(blank=True,default=False)
     plate_aproved = models.BooleanField(blank=True,default=False)
+    def image_odo_thumbnail(self):
+        return mark_safe('<img src="%s" width="auto" height="50"/>' % (self.image_odo))
+    def image_drive_thumbnail(self):
+        return mark_safe('<img src="%s" width="auto" height="50"/>' % (self.image_drive))
+    def image_pass_thumbnail(self):
+        return mark_safe('<img src="%s" width="auto" height="50"/>' % (self.image_pass))
+    def image_plate_thumbnail(self):
+        return mark_safe('<img src="%s" width="auto" height="50"/>' % (self.image_plate))
+
 
 class CampaignCar(models.Model):
     campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE)
