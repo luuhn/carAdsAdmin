@@ -13,6 +13,7 @@ class CampaignCarAdmin(admin.ModelAdmin):
 admin.site.register(CampaignCar, CampaignCarAdmin)
 admin.site.register(Car)
 class ReportImageAdmin(admin.ModelAdmin):
+    list_per_page = 20
     search_fields = ['car__plate_num']
     list_display = ('car', 'image_odo_thumbnail','odo_aproved','image_drive_thumbnail','drive_aproved','image_pass_thumbnail','pass_aproved','image_plate_thumbnail','plate_aproved')
     list_editable = ('odo_aproved','drive_aproved','pass_aproved','plate_aproved')
