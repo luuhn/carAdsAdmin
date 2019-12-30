@@ -131,7 +131,7 @@ class CamDistKpi(APIView):
         cam= Campaign.objects.get(pk=request.data["camid"])
         cityname= cam.location.name
         result = []
-        listkpi=CampaignKpi.objects.filter(campaign_id=request.data["camid"],province__icontains=cityname).values('district').annotate(score =Sum('totalDistance'))[:5]
+        listkpi=CampaignKpi.objects.filter(campaign_id=request.data["camid"],province__icontains=cityname).values('district').annotate(score =Sum('totalDistance'))[:15]
         keys = ('name','value',)
         for lk in listkpi:
             data=[]
