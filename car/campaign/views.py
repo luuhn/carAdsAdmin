@@ -17,8 +17,8 @@ from django.contrib.auth import authenticate
 from django.db import connection
 import json
 from django.db.models import Sum
-# import pandas as pd
-# import numpy as np
+import pandas as pd
+import numpy as np
 # Create your views here.
 
 
@@ -139,6 +139,27 @@ class CamDistKpi(APIView):
             data.append(lk['score'])
             result.append(dict(zip(keys,data)))
         return Response(result,status=status.HTTP_200_OK)
+
+class CamKpi(APIView):
+    def post(self, request, format=None):
+        cam= Campaign.objects.get(pk=request.data["camid"])
+        cityname= cam.location.name
+        result = []
+        camkpi=CarKpi.objects.filter(campaign_id=request.data["camid"]).values()
+        df=pd.DataFrame(camkpi)
+        # print(df)
+        total = df['totalDistance'].sum()
+        impress=df['impression'].sum()
+        # print(total)
+        # print(impress)
+        maxcar=df.groupby(['car_id'])['totalDistance'].sum().max()
+        avgcar=df.groupby(['car_id'])['totalDistance'].sum().mean()
+        print(avgcar)
+        # for kpi in camkpi:
+        # print('kpi')
+        return Response({'total':total,'impress':impress,'maxcar':maxcar,'avgcar':avgcar},status=status.HTTP_200_OK)
+
+
 
 class ReportList(APIView):
     def post(self, request, format=None):
