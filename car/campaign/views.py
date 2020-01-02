@@ -150,14 +150,26 @@ class CamKpi(APIView):
         # print(df)
         total = df['totalDistance'].sum()
         impress=df['impression'].sum()
-        # print(total)
-        # print(impress)
+        
         maxcar=df.groupby(['car_id'])['totalDistance'].sum().max()
         avgcar=df.groupby(['car_id'])['totalDistance'].sum().mean()
-        print(avgcar)
+        countcar=df.groupby(['car_id'])['totalDistance'].sum().count()
+        # print(avgcar)
+        #top car kpi
+        keys = ('id','plate','km','impression','city',)
+        kq=CarKpi.objects.filter(campaign_id=request.data["camid"]).values('car__plate_num').annotate(score =Sum('totalDistance')).annotate(score1 =Sum('impression')).order_by('-score')[:5]
+        for k in kq:
+            # print(k)
+            data=[]
+            data.append(k['car__plate_num'])
+            data.append(str(k['car__plate_num']))
+            data.append(str(k['score']))
+            data.append(str(k['score1']))
+            data.append(str(cityname))
+            result.append(dict(zip(keys,data)))
         # for kpi in camkpi:
-        # print('kpi')
-        return Response({'total':total,'impress':impress,'maxcar':maxcar,'avgcar':avgcar},status=status.HTTP_200_OK)
+        # print(result)
+        return Response({'total':int(total),'impress':int(impress),'maxcar':int(maxcar),'avgcar':int(avgcar),'countcar':countcar,'topkpi':result,'camname':cam.name},status=status.HTTP_200_OK)
 
 
 
