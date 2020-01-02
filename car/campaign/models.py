@@ -16,6 +16,7 @@ class Campaign(models.Model):
     end_date = models.DateField()
     num_cars = models.DecimalField(max_digits=4, decimal_places=0)
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
+    maxkm = models.IntegerField(blank=True, null=True,default=2100)
     def __str__(self):
         return self.name
 

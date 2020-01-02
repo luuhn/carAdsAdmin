@@ -154,6 +154,15 @@ class CamKpi(APIView):
         maxcar=df.groupby(['car_id'])['totalDistance'].sum().max()
         avgcar=df.groupby(['car_id'])['totalDistance'].sum().mean()
         countcar=df.groupby(['car_id'])['totalDistance'].sum().count()
+        cammaxkm= cam.maxkm*countcar
+        cammaximpress=cam.maxkm*80*countcar
+        percentkm=int((total/cammaxkm)*100)
+        percentimpress=int((impress/cammaximpress)*100)
+        if percentkm>100:
+            percentkm=100
+        if percentimpress>100:
+            percentimpress=100
+        print(percentimpress)
         # print(avgcar)
         #top car kpi
         keys = ('id','plate','km','impression','city',)
@@ -169,7 +178,7 @@ class CamKpi(APIView):
             result.append(dict(zip(keys,data)))
         # for kpi in camkpi:
         # print(result)
-        return Response({'total':int(total),'impress':int(impress),'maxcar':int(maxcar),'avgcar':int(avgcar),'countcar':countcar,'topkpi':result,'camname':cam.name},status=status.HTTP_200_OK)
+        return Response({'total':int(total),'impress':int(impress),'maxcar':int(maxcar),'avgcar':int(avgcar),'countcar':countcar,'topkpi':result,'camname':cam.name,'percentkm':percentkm,'percentimpress':percentimpress},status=status.HTTP_200_OK)
 
 
 
